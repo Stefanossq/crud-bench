@@ -101,3 +101,12 @@ https://github.com/user-attachments/assets/ecbde160-4b43-408b-8fec-1e7a9660d422
 - Dataset cresce durante os testes (usar reset antes)
 - Comparacao SQL/NoSQL e teorica
 - Frontend: apenas Swagger UI
+
+
+DOCKER UP : 
+
+
+
+https://github.com/user-attachments/assets/15a6b6dc-3f56-4f3b-a03d-0b380cc3b760
+
+
