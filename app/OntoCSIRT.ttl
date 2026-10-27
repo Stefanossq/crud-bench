@@ -1,0 +1,194 @@
+@prefix : <http://www.semanticweb.org/ontocsirt#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://www.semanticweb.org/ontocsirt> a owl:Ontology ;
+    rdfs:label "OntoCSIRT: Ontology for Threat Discovery and Incident Resolution in CSIRTs" ;
+    rdfs:comment "Enriquecida automaticamente via NVD API (NIST). CVEs validados: CVE-2021-4045 (CWE-77), CVE-2015-4852 (CWE-502)" .
+
+############################################################
+# CLASSES
+############################################################
+
+:Asset a owl:Class .
+:Server a owl:Class ; rdfs:subClassOf :Asset .
+:Workstation a owl:Class ; rdfs:subClassOf :Asset .
+:NetworkDevice a owl:Class ; rdfs:subClassOf :Asset .
+
+:Incident a owl:Class .
+:DoS a owl:Class ; rdfs:subClassOf :Incident .
+:Malware a owl:Class ; rdfs:subClassOf :Incident .
+:WebAttack a owl:Class ; rdfs:subClassOf :Incident .
+:Botnet a owl:Class ; rdfs:subClassOf :Incident .
+:CommandInjection a owl:Class ; rdfs:subClassOf :Incident .
+:Deserialization a owl:Class ; rdfs:subClassOf :Incident .
+
+:Vulnerability a owl:Class .
+:Attack a owl:Class .
+:CommandInjectionAttack a owl:Class ; rdfs:subClassOf :Attack .
+:DeserializationAttack a owl:Class ; rdfs:subClassOf :Attack .
+:BruteForce a owl:Class ; rdfs:subClassOf :Attack .
+
+:ResolutionAction a owl:Class .
+:FirewallSetup a owl:Class ; rdfs:subClassOf :ResolutionAction .
+:NetworkAccessChange a owl:Class ; rdfs:subClassOf :ResolutionAction .
+:Installation a owl:Class ; rdfs:subClassOf :ResolutionAction .
+:RemoveMalware a owl:Class ; rdfs:subClassOf :ResolutionAction .
+:UserSupport a owl:Class ; rdfs:subClassOf :ResolutionAction .
+
+:DefensiveMeasure a owl:Class .
+:Authentication a owl:Class ; rdfs:subClassOf :DefensiveMeasure .
+:Encryption a owl:Class ; rdfs:subClassOf :DefensiveMeasure .
+:FirmwareUpdate a owl:Class ; rdfs:subClassOf :DefensiveMeasure .
+
+:SecurityState a owl:Class .
+:Confidentiality a owl:Class ; rdfs:subClassOf :SecurityState .
+:Integrity a owl:Class ; rdfs:subClassOf :SecurityState .
+:Availability a owl:Class ; rdfs:subClassOf :SecurityState .
+
+:IncidentReport a owl:Class .
+:IODEF_Report a owl:Class ; rdfs:subClassOf :IncidentReport .
+:STIX_Report a owl:Class ; rdfs:subClassOf :IncidentReport .
+
+:CSIRT a owl:Class .
+:Analyst a owl:Class ; rdfs:subClassOf :CSIRT .
+:SeniorAnalyst a owl:Class ; rdfs:subClassOf :CSIRT .
+:Coordinator a owl:Class ; rdfs:subClassOf :CSIRT .
+
+:Case a owl:Class .
+
+############################################################
+# OBJECT PROPERTIES
+############################################################
+
+:hasIncident a owl:ObjectProperty ;
+    rdfs:domain :Asset ; rdfs:range :Incident .
+
+:hasVulnerability a owl:ObjectProperty ;
+    rdfs:domain :Asset ; rdfs:range :Vulnerability .
+
+:exploits a owl:ObjectProperty ;
+    rdfs:domain :Attack ; rdfs:range :Vulnerability .
+
+:mitigatedBy a owl:ObjectProperty ;
+    rdfs:domain :Incident ; rdfs:range :ResolutionAction .
+
+:resolvedBy a owl:ObjectProperty ;
+    rdfs:domain :Incident ; rdfs:range :CSIRT .
+
+:reportedBy a owl:ObjectProperty ;
+    rdfs:domain :IncidentReport ; rdfs:range :CSIRT .
+
+:hasState a owl:ObjectProperty ;
+    rdfs:domain :Asset ; rdfs:range :SecurityState .
+
+:usesMeasure a owl:ObjectProperty ;
+    rdfs:domain :ResolutionAction ; rdfs:range :DefensiveMeasure .
+
+:connectedTo a owl:ObjectProperty ;
+    rdfs:domain :Asset ; rdfs:range :Asset .
+
+:similarTo a owl:ObjectProperty .
+
+:hasProblem a owl:ObjectProperty ;
+    rdfs:domain :Case ; rdfs:range :Incident .
+
+:hasSolution a owl:ObjectProperty ;
+    rdfs:domain :Case ; rdfs:range :ResolutionAction .
+
+:partOf a owl:ObjectProperty ;
+    rdfs:domain :ResolutionAction ; rdfs:range :IncidentReport .
+
+############################################################
+# DATA PROPERTIES
+############################################################
+
+:hasName a owl:DatatypeProperty ; rdfs:range xsd:string .
+:hasCVE a owl:DatatypeProperty ; rdfs:range xsd:string .
+:hasCWE a owl:DatatypeProperty ; rdfs:range xsd:string .
+:hasCVSS a owl:DatatypeProperty ; rdfs:range xsd:float .
+:hasRiskLevel a owl:DatatypeProperty ; rdfs:range xsd:string .
+
+############################################################
+# INDIVIDUALS
+############################################################
+
+:Server_1 a :Server ; :hasName "Server_1" .
+:Workstation_1 a :Workstation ; :hasName "Workstation_1" .
+:NetworkDevice_1 a :NetworkDevice ; :hasName "NetworkDevice_1" .
+
+:Vuln_CommandInjection a :Vulnerability ;
+    :hasCVE "CVE-2021-4045" ;
+    :hasCWE "CWE-77" ;
+    :hasCVSS "9.8" ;
+    :hasRiskLevel "Critical" .
+
+:Vuln_Deserialization a :Vulnerability ;
+    :hasCVE "CVE-2015-4852" ;
+    :hasCWE "CWE-502" ;
+    :hasCVSS "9.8" ;
+    :hasRiskLevel "Critical" .
+
+:Attack_CommandInjection a :CommandInjectionAttack .
+:Attack_Deserialization a :DeserializationAttack .
+
+:Incident_CommandInjection a :CommandInjection ; :hasRiskLevel "Critical" .
+:Incident_WebAttack a :WebAttack ; :hasRiskLevel "Critical" .
+
+:Action_Firewall a :FirewallSetup .
+:Action_Install a :Installation .
+:Action_Patch a :Installation .
+
+:Measure_Auth a :Authentication .
+:Measure_Encrypt a :Encryption .
+:Measure_Firmware a :FirmwareUpdate .
+
+:State_Conf a :Confidentiality .
+:State_Integ a :Integrity .
+:State_Avail a :Availability .
+
+:Report_1 a :IODEF_Report .
+:CSIRT_1 a :Analyst .
+:Case_1 a :Case .
+:Case_2 a :Case .
+
+############################################################
+# PROPERTY ASSERTIONS (factos conhecidos)
+############################################################
+
+# Server_1 tem duas vulnerabilidades reais (validadas via NVD)
+:Server_1 :hasVulnerability :Vuln_CommandInjection .
+:Server_1 :hasVulnerability :Vuln_Deserialization .
+
+# Ataques exploram as vulnerabilidades
+:Attack_CommandInjection :exploits :Vuln_CommandInjection .
+:Attack_Deserialization :exploits :Vuln_Deserialization .
+
+# Server_1 conecta-se a Workstation_1
+:Server_1 :connectedTo :Workstation_1 .
+
+# Server_1 tem o incidente de Command Injection
+:Server_1 :hasIncident :Incident_CommandInjection .
+
+# Incidente mitigado por acoes
+:Incident_CommandInjection :mitigatedBy :Action_Firewall .
+:Incident_CommandInjection :mitigatedBy :Action_Patch .
+
+# Acoes usam medidas defensivas
+:Action_Firewall :usesMeasure :Measure_Auth .
+:Action_Patch :usesMeasure :Measure_Firmware .
+
+# Estados de seguranca
+:Server_1 :hasState :State_Conf .
+:Server_1 :hasState :State_Integ .
+
+# Casos historicos
+:Case_1 :hasProblem :Incident_CommandInjection .
+:Case_1 :hasSolution :Action_Firewall .
+:Case_2 :hasProblem :Incident_WebAttack .
+:Case_2 :hasSolution :Action_Patch .
+
+# Relatorio
+:Report_1 :reportedBy :CSIRT_1 .
