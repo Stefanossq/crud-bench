@@ -93,6 +93,10 @@ Ganho: 40x mais rapido.
 
 ## Limitacoes
 
+
+https://github.com/user-attachments/assets/ecbde160-4b43-408b-8fec-1e7a9660d422
+
+
 - Cada cenario rodou 1 vez (sem intervalo de confianca)
 - Dataset cresce durante os testes (usar reset antes)
 - Comparacao SQL/NoSQL e teorica
